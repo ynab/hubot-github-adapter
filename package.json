@@ -1,0 +1,34 @@
+{
+  "name": "hubot-github",
+  "version": "0.9.0",
+  "author": "Taylor Brown <taylor@youneedabudget.com>",
+  "description": "Hipchat adapter for Github. Talk to your Hubot from issue and pull request comments.",
+  "keywords": [
+    "hubot",
+    "chat",
+    "github",
+    "bot"
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/ynab/hubot-github/raw/master/LICENSE"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/ynab/hubot-github.git"
+  },
+  "license": "MIT",
+  "main": "./src/hubot-github",
+  "dependencies": {
+    "hubot-github-webhook-listener": "^1.0.0"
+  },
+  "devDependencies": {
+    "coffee-script": "~1.7.1",
+    "hubot": ">= 2.6.0 < 3.0.0",
+  },
+  "bugs": {
+    "url": "https://github.com/ynab/hubot-github/issues"
+  }
+}
