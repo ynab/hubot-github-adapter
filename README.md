@@ -1,4 +1,4 @@
-# hubot-slack
+# hubot-github
 
 A [Hubot](http://hubot.github.com/) adapter to use with [Github](http://github.com).
 
