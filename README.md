@@ -30,6 +30,7 @@ Follow the (Hubot instructions)[https://github.com/github/hubot/blob/master/docs
 ####Create a Github User for your bot:
 
 This is the user your Hubot will use to post comments.
+
 1. Sign up for a new account on [Github](https://github.com/)
 2. If you have private repositories that your bot will be interacting with, [add your bot as a collaborator](https://help.github.com/articles/adding-collaborators-to-a-personal-repository/) to all of the repositories you want it to listen and respond to. You can skip this step for public repos.
 3. [Create a new OAuth token for this Github User](https://help.github.com/articles/creating-an-access-token-for-command-line-use/). It needs the following scopes:
