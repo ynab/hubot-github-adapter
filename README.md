@@ -44,7 +44,7 @@ You'll need to create a Github webhook for every repository you want Hubot to li
 
 1. Create a new webhook for your `myuser/myrepo` repository at:
    https://github.com/myuser/myrepo/settings/hooks/new
-   Set the webhook url to: <HUBOT_URL>:<PORT>/hubot/github-repo-listener
+   Set the webhook url to: &lt;HUBOT_URL&gt;:&lt;PORT&gt;/hubot/github-repo-listener
 
    For example, if your hubot lives at myhubot.herokuapp.com, then you will set the webhook URL to: http://myhubot.herokuapp.com/hubot/github-repo-listener
 
@@ -75,11 +75,11 @@ This adapter uses the following environment variables:
 
 ## Copyright
 
-Copyright &copy; YouNeedABudget.com, LLC.
+Copyright &copy; [YouNeedABudget.com](http://youneedabudget.com), LLC. (Github: [YNAB](http://github.com/ynab))
 
 ## Author
 
-Taylor Brown, aka Taytay
+Taylor Brown, aka [Taytay](http://github.com/Taytay)
 
 ## License
 
