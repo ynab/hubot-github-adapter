@@ -2,7 +2,7 @@
 
 A [Hubot](http://hubot.github.com/) adapter to use with [Github](http://github.com).
 
-Use this adapter to listen to Hubot commands from Github issues and pull requests.
+Use this adapter to have Hubot listen and comment on Github issues and pull requests.
 
 ## Motivation
 
