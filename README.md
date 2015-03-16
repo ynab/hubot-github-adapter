@@ -58,7 +58,7 @@ Set the `HUBOT_GITHUB_TOKEN` environment variable to the token you created above
 Let's say you gave your Hubot user the name "BestHubotEver"
 You'll want to start your hubot with that name:
 
-- `HUBOT_GITHUB_TOKEN=some-long-guid-number ./bin/hubot --adapter github --name BestHubotEver`
+- `HUBOT_GITHUB_TOKEN=some-long-guid-number ./bin/hubot --adapter github-adapter --name BestHubotEver`
 
 ####Test Your Hubot
 
