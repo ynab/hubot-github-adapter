@@ -19,7 +19,7 @@ So, basically all the cool stuff that Hubot already does, but in the context of 
 
 ### Creating a new bot
 
-Follow the (Hubot instructions)[https://github.com/github/hubot/blob/master/docs/index.md] to create a new bot.
+Follow the [Hubot instructions](https://github.com/github/hubot/blob/master/docs/index.md) to create a new bot.
 
 ####Install this adapter:
 - `cd /path/to/hubot`
