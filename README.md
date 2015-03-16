@@ -1,4 +1,4 @@
-# hubot-github
+# hubot-github-adapter
 
 A [Hubot](http://hubot.github.com/) adapter to use with [Github](http://github.com).
 
@@ -24,7 +24,7 @@ Follow the (Hubot instructions)[https://github.com/github/hubot/blob/master/docs
 ####Install this adapter:
 - `cd /path/to/hubot`
 - `yo hubot`
-- `npm install hubot-github --save`
+- `npm install hubot-github-adapter --save`
 - Initialize git and make your initial commit
 
 ####Create a Github User for your bot:
@@ -53,6 +53,8 @@ You'll need to create a Github webhook for every repository you want Hubot to li
 
 ####Configure your Hubot
 
+Set the `HUBOT_GITHUB_TOKEN` environment variable to the token you created above.
+
 Let's say you gave your Hubot user the name "BestHubotEver"
 You'll want to start your hubot with that name:
 
@@ -73,6 +75,10 @@ If you want to test your bot locally, you can create a temporary webhook that go
 This adapter uses the following environment variables:
 
  - `HUBOT_GITHUB_TOKEN` - This is the auth token for the Github user you created above.
+
+## A note on naming
+
+It's customary to name adapters simply `hubot-<adapter>`, however `github-hubot` is taken.
 
 ## Copyright
 
