@@ -17,10 +17,13 @@ class Github extends Adapter
 
     return console.error "No Github token provided to Hubot" unless @options.token
 
-    @github_client = new GitHubApi(version: "3.0.0")
-    @github_client.authenticate
+    @githubClient = new GitHubApi(version: "3.0.0")
+    @githubClient.authenticate
       type: "oauth",
       token: @options.token
+
+    # Initialize the webhook-listener
+    @webhookListener = require('hubot-github-webhook-listener')(@robot)
 
     @robot.on "github-repo-event", (repo_event) =>
 
@@ -54,6 +57,7 @@ class Github extends Adapter
               # Pass to the robot
               # If a receiver wants to, they can differentiate GithubMessages by the presence of githubPayload
               self.receive new GithubMessage(author, commentBody, githubPayload.comment.id, githubPayload)
+
 
     # Tell Hubot we're connected so it can load scripts
     @robot.logger.info "GitHub adapter is up and running as ", self.robot.name
@@ -93,7 +97,7 @@ class Github extends Adapter
       token : process.env.HUBOT_GITHUB_TOKEN
 
   createGithubComment: (user, repo, issueNumber, commentBody) =>
-    @github_client.issues.createComment {
+    @githubClient.issues.createComment {
       user: user,
       repo: repo,
       number: issueNumber,
