@@ -41,7 +41,10 @@ This is the user your Hubot will use to post comments.
 (Keep this token as secret as you would a password.)
 
 ####Create a Github Webhook for your each of your repositories:
+
 You'll need to create a Github webhook for every repository you want Hubot to listen to.
+
+**SECURITY WARNING**: The [Github Webhook listener](https://github.com/ynab/hubot-github-webhook-listener) does not currently validate the Github Secret to verify that the webhook came from Github. So, if someone knows the URL to your Hubot, they can spoof webhooks and issue your Hubot commands. So, for now be careful about exposing commands like `destroy company`, etc.
 
 1. Create a new webhook for your `myuser/myrepo` repository at:
    https://github.com/myuser/myrepo/settings/hooks/new
@@ -74,11 +77,93 @@ If you want to test your bot locally, you can create a temporary webhook that go
 
 This adapter uses the following environment variables:
 
- - `HUBOT_GITHUB_TOKEN` - This is the auth token for the Github user you created above.
+ - `HUBOT_GITHUB_TOKEN` - This is the auth token for the Github user you created above. Required for Hubot to comment on issues.
+
+
+## Writing your own scripts
+
+We've published an [example script](https://gist.github.com/Taytay/3cc046043f49d13c0a02) we use with this adapter to help us manage our Pull Requests.
+
+### Responding to text commands
+
+Nothing changes if you want to respond to text commands. It's just like any other Hubot adapter in that regard:
+```coffeescript
+robot.respond /hello/i, (response) ->
+   response.send("Well hello to you too!")
+robot.hear /YNAB/i, (response) ->
+   response.send("Did someone mention YNAB? I love YNAB!")
+```
+
+### Events
+
+This adapter guarantees that an event `github-repo-event` is emitted for every webhook received from Github. 
+It has the following structure:
+```coffeescript
+eventBody =
+        eventType   : req.headers["x-github-event"]
+        signature   : req.headers["X-Hub-Signature"]
+        deliveryId  : req.headers["X-Github-Delivery"]
+        payload     : req.body
+        query       : querystring.parse(url.parse(req.url).query)
+```
+And you can listen to it like so:
+
+```coffeescript
+  robot.on "github-repo-event", (repoEvent) =>
+
+    # Note that this assumes you are using the Hubot Github adapter, because it tries to comment on a github issue like
+    # user/repo/issueNumber
+    # And that's only valid if you are using the github adapter.
+    # https://github.com/ynab/hubot-github-adapter
+
+    switch repoEvent.eventType
+      when "pull_request"
+        payload = repoEvent.payload
+        if (payload.action == "opened")
+          robot.send room: getRoomFromRepositoryAndIssue(payload), "I'm your friendly neighborhood Github robot, and I can help you with your pull requests. For a list of the things I can do, just write:\n@#{robot.name} help"
+      when "status"
+        payload = repoEvent.payload
+        switch payload.state
+          when "failure", "error" #success, failure, error
+            # We can just comment on this failed commit:
+            repoOwner = payload.repository.owner.login
+            repoName = payload.repository.name
+            # Merge commits have one extra commit inside the first one
+            commitAuthor = payload.commit.author?.login || payload.commit.commit?.author.login
+            githubClient.repos.createCommitComment {
+              user: repoOwner,
+              repo: repoName,
+              sha: payload.commit.sha,
+              commit_id: payload.commit.sha,
+              body: "@#{commitAuthor}: It looks like the last build failed for this commit: [#{payload.description}](#{payload.target_url})"
+            },  (err, success) ->
+              if (err)
+                robot.logger.error err
+```
+ 
+For more information, see:
+
+1) [Hubot Github Webhook Listener](https://github.com/ynab/hubot-github-webhook-listener), the Hubot script that emits the event.
+2) Our [example script](https://gist.github.com/Taytay/3cc046043f49d13c0a02)
+3) [Github's documentation on webhooks](https://developer.github.com/webhooks/)
+
+### Inline Images and other escaping
+
+All messages you send through the Github adapter will have the following preprocessing performed:
+
+1) All raw image URLs are converted to inline images:
+For example, this: `https://camo.githubusercontent.com/c44fe05af09e8ad5fe6dd95e65276f169de236f7/68747470733a2f2f6769746875622d696d616765732e73332e616d617a6f6e6177732e636f6d2f626c6f672f323031312f6875626f742e706e67` gets converted into this:
+`![](https://camo.githubusercontent.com/c44fe05af09e8ad5fe6dd95e65276f169de236f7/68747470733a2f2f6769746875622d696d616765732e73332e616d617a6f6e6177732e636f6d2f626c6f672f323031312f6875626f742e706e67)`
+Which means you will actually see the image like so in Github comments: ![](https://camo.githubusercontent.com/c44fe05af09e8ad5fe6dd95e65276f169de236f7/68747470733a2f2f6769746875622d696d616765732e73332e616d617a6f6e6177732e636f6d2f626c6f672f323031312f6875626f742e706e67)
+
+(This hasn't been thoroughly tested, but we can confirm that `hubot mustache me`, `hubot image me squirrel`, and `ship it!` commands all work)
+
+2) Brackets &lt; and &gt; are escaped into: `&lt;` and `&gt;` so that Hubot can display them.
+
 
 ## A note on naming
 
-It's customary to name adapters simply `hubot-<adapter>`, however `github-hubot` is taken.
+It's customary to name adapters simply `hubot-<adapter>`, however `github-hubot` is taken, so this is now `hubot-github-adapter`.
 
 ## Copyright
 
