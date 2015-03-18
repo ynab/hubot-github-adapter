@@ -106,7 +106,8 @@ eventBody =
         payload     : req.body
         query       : querystring.parse(url.parse(req.url).query)
 ```
-And you can listen to it like so:
+
+And you can listen to it like so (taken from our [example script](https://gist.github.com/Taytay/3cc046043f49d13c0a02))
 
 ```coffeescript
   robot.on "github-repo-event", (repoEvent) =>
