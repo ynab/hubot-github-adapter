@@ -153,9 +153,12 @@ For more information, see:
 All messages you send through the Github adapter will have the following preprocessing performed:
 
 1) All raw image URLs are converted to inline images:
-For example, this: `https://camo.githubusercontent.com/c44fe05af09e8ad5fe6dd95e65276f169de236f7/68747470733a2f2f6769746875622d696d616765732e73332e616d617a6f6e6177732e636f6d2f626c6f672f323031312f6875626f742e706e67` gets converted into this:
-`![](https://camo.githubusercontent.com/c44fe05af09e8ad5fe6dd95e65276f169de236f7/68747470733a2f2f6769746875622d696d616765732e73332e616d617a6f6e6177732e636f6d2f626c6f672f323031312f6875626f742e706e67)`
-Which means you will actually see the image like so in Github comments: ![](https://camo.githubusercontent.com/c44fe05af09e8ad5fe6dd95e65276f169de236f7/68747470733a2f2f6769746875622d696d616765732e73332e616d617a6f6e6177732e636f6d2f626c6f672f323031312f6875626f742e706e67)
+For example, this: `https://octodex.github.com/images/hubot.jpg` gets converted into this:
+
+`![](https://octodex.github.com/images/hubot.jpg)`
+
+Which means you will actually see the image like so in Github comments: 
+![](https://octodex.github.com/images/hubot.jpg)
 
 (This hasn't been thoroughly tested, but we can confirm that `hubot mustache me`, `hubot image me squirrel`, and `ship it!` commands all work)
 
@@ -164,7 +167,7 @@ Which means you will actually see the image like so in Github comments: ![](http
 
 ## A note on naming
 
-It's customary to name adapters simply `hubot-<adapter>`, however `github-hubot` is taken, so this is now `hubot-github-adapter`.
+It's customary to name adapters simply `hubot-<adapter>`, however `hubot-github` is taken, so this is now `hubot-github-adapter`.
 
 ## Copyright
 
