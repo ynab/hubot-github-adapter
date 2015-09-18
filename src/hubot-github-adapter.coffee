@@ -6,6 +6,7 @@
 GitHubApi = require("github");
 
 GithubMessage = require("./github-message");
+Url = require("url")
 
 class Github extends Adapter
   constructor: (robot) ->
@@ -17,7 +18,7 @@ class Github extends Adapter
 
     return console.error "No Github token provided to Hubot" unless @options.token
 
-    @githubClient = new GitHubApi(version: "3.0.0")
+    @githubClient = new GitHubApi(@options)
     @githubClient.authenticate
       type: "oauth",
       token: @options.token
@@ -93,8 +94,15 @@ class Github extends Adapter
     @send envelope, strings...
 
   parseOptions: ->
-    @options =
-      token : process.env.HUBOT_GITHUB_TOKEN
+    @options = {
+      token: process.env.HUBOT_GITHUB_TOKEN,
+      version: "3.0.0"
+    }
+    if process.env.HUBOT_GITHUB_API
+      parsedUrl = Url.parse(process.env.HUBOT_GITHUB_API)
+      @options.host = parsedUrl.host
+      @options.pathPrefix = parsedUrl.path
+      @options.protocol = parsedUrl.protocol.replace /:$/, ''
 
   createGithubComment: (user, repo, issueNumber, commentBody) =>
     @githubClient.issues.createComment {
