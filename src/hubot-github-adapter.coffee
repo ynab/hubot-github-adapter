@@ -1,4 +1,3 @@
-
 # I wrote this adapter by adapting Slack's adapter: https://github.com/slackhq/hubot-slack
 # Similarities are not coincidental. Thank you Slack!
 {Robot, Adapter, TextMessage} = require 'hubot'
@@ -17,7 +16,13 @@ class Github extends Adapter
 
     return console.error "No Github token provided to Hubot" unless @options.token
 
-    @githubClient = new GitHubApi(version: "3.0.0")
+    @githubClient = new GitHubApi
+                          version: @options.version,
+                          host: @options.host,
+                          pathPrefix: @options.prefix,
+                          protocol: @options.protocol,
+                          debug: @options.debug
+
     @githubClient.authenticate
       type: "oauth",
       token: @options.token
@@ -58,7 +63,6 @@ class Github extends Adapter
               # If a receiver wants to, they can differentiate GithubMessages by the presence of githubPayload
               self.receive new GithubMessage(author, commentBody, githubPayload.comment.id, githubPayload)
 
-
     # Tell Hubot we're connected so it can load scripts
     @robot.logger.info "GitHub adapter is up and running as ", self.robot.name
     self.emit "connected"
@@ -94,7 +98,12 @@ class Github extends Adapter
 
   parseOptions: ->
     @options =
-      token : process.env.HUBOT_GITHUB_TOKEN
+      token : process.env.HUBOT_GITHUB_TOKEN,
+      host : process.env.HUBOT_GITHUB_HOST || 'api.github.com',
+      prefix: process.env.HUBOT_GITHUB_PREFIX || null,
+      debug: process.env.HUBOT_GITHUB_DEBUG || false,
+      protocol: process.env.HUBOT_GITHUB_PROTOCOL || 'https',
+      version: process.env.HUBOT_GITHUB_VERSION || '3.0.0'
 
   createGithubComment: (user, repo, issueNumber, commentBody) =>
     @githubClient.issues.createComment {
