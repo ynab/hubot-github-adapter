@@ -22,6 +22,7 @@
   "license": "MIT",
   "main": "./src/hubot-github-adapter",
   "dependencies": {
+    "github": "^0.2.4",
     "hubot-github-webhook-listener": "^0.9.0"
   },
   "devDependencies": {
