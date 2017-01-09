@@ -71,7 +71,7 @@ You should be able to say:
 
 #### Testing your bot locally
 
-If you want to test your bot locally, you can create a temporary webhook that goes to your machine instead of a live Hubot. See detailed instructions on the [hubot-github-webhook-listener](hubot-github-webhook-listener) page.
+If you want to test your bot locally, you can create a temporary webhook that goes to your machine instead of a live Hubot. See detailed instructions on the [hubot-github-webhook-listener](https://github.com/ynab/hubot-github-webhook-listener) page.
 
 ## Configuration
 
