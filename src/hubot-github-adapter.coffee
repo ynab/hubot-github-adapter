@@ -96,15 +96,15 @@ class Github extends Adapter
     @options =
       token : process.env.HUBOT_GITHUB_TOKEN
 
-  createGithubComment: (user, repo, issueNumber, commentBody) =>
+  createGithubComment: (owner, repo, issueNumber, commentBody) =>
     @githubClient.issues.createComment {
-      user: user,
+      owner: owner,
       repo: repo,
       number: issueNumber,
       body: commentBody
     }, (err, res) =>
       if (err)
-        @robot.logger.error "Couldn't make the github comment: #{err}", user, repo, issueNumber, commentBody
+        @robot.logger.error "Couldn't make the github comment: #{err}", owner, repo, issueNumber, commentBody
 
   getCommentAuthor: (data) ->
     # Return an author object
